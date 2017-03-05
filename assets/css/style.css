@@ -1,0 +1,78 @@
+.jumbotron{
+	padding:0px;
+}
+
+.question,#timer{
+	color:#340865;
+	font-weight: bold;
+}
+#timer{
+	color:red;
+	font-weight: bold;
+}
+  /*sticky footer code*/
+    body {
+      font-family: 'Titillium Web', sans-serif;
+      color: white;
+      font-weight: 400;
+      font-size: 16px;
+      background-color: #e7c146;
+      -webkit-font-smoothing: antialiased;
+      -webkit-overflow-scrolling: touch;
+      margin-bottom: 120px;
+  }
+  html {
+      position: relative;
+      min-height: 100%;
+  }
+    .container {
+      width: 100%;
+      text-align: center;
+  }
+  
+  .footer {
+      position: absolute;
+      bottom: 0;
+      font-size: 1.1em;
+      width: 100%;
+      /* Set the fixed height of the footer here */
+      height: 90px;
+      color: #A2A7A5;
+      background-color: #340865;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-top: 10px solid #635380;
+  }
+.btn,
+  .btn:active,
+  .btn:active:focus,
+  .btn.btn-primary[disabled],
+  .btn.btn-success[disabled]{
+      font-size: 20px;
+      color: #fff;
+      background-color: #340865;
+      border: none;
+  }
+  
+  .btn:hover,
+  .btn:focus {
+      background-color: #220542;
+      border-color: white;
+      color: #A2A7A5;
+  }
+  
+  .btn:focus {
+      color: #fff;
+  }
+  
+  .btn:focus,
+  .btn:active:focus,
+  .btn.active:focus {
+      outline: 0 none;
+  }
+
+  #correctAnswers,
+  #incorrectAnswers{
+  	color:#340865;
+  }
