@@ -1,11 +1,12 @@
 //start game on start button click
+//reset all fields and load the first question
 $(document).ready(function() {
     $("#startGame").on("click", function() {
-
         resetAll();
         loadQuestion(gameStats.currentQuestion);
     });
-    //check answers on click
+    //check answers on click by passing them into
+    //the checkAnswer fuction and comparing to the answerArray
     $(".answer0").on("click", function() {
         checkAnswer("a");
     });
@@ -20,7 +21,8 @@ $(document).ready(function() {
     });
 
 });
-//game object with some variables
+
+//an object to store game variables
 var gameStats = {
         correctAnswers: 0,
         gameIsOver: false,
@@ -53,9 +55,11 @@ function loadQuestion(a) {
     $('#startGame').prop('disabled', true);
     //clear the gif if it's there
     $('#gif').empty();
+    //if there is a question to load, load it and the answers
+    //and start the question timer
     if (a < questionArray.length) {
-    	timer.reset();
-    	timer.start();
+        timer.reset();
+        timer.start();
         $("#timer").html('Time Left: ' + timer.time + '</div>');
         $(".question").html(questionArray[a].q);
         $(".answer0").html('<button type="button"  class="centered btn btn-primary">' + questionArray[a].a + '</button>');
@@ -63,20 +67,15 @@ function loadQuestion(a) {
         $(".answer2").html('<button type="button"  class="centered btn btn-primary">' + questionArray[a].c + '</button>');
         $(".answer3").html('<button type="button"  class="centered btn btn-primary">' + questionArray[a].d + '</button>');
     } else {
+    //if there is no question to load, the game is over.
         gameStats.gameIsOver = true;
         gameOver();
     }
 }
 
-//on click event for each answer:
-
-
-
-
-
-//check answer
+//function to check the answer by matching it to the
+//answer in the array (the index is the question number)
 function checkAnswer(a) {
-    console.log(gameStats.gameIsOver);
     if (!gameStats.gameIsOver) {
         if (a === answerArray[gameStats.currentQuestion]) {
             correctAnswer();
@@ -87,69 +86,61 @@ function checkAnswer(a) {
 
 }
 
+
 //need a timer to load next question if nothing is pressed
+//and a separate timer for the gifs
 var timer = {
 
-    time: 10,
-    gifTime: 5,
+    time: 15,
+    gifTime: 8,
 
     reset: function() {
 
         timer.time = 15;
         timer.gifTime = 8;
     },
+    //two start functions for the different timers
     start: function() {
-
-        // DONE: Use setInterval to start the count here.
         intervalId = setInterval(timer.count, 1000);
     },
     startGif: function() {
         gifIntervalId = setInterval(timer.countGif, 1000);
     },
-    stop: function() {
 
-        // DONE: Use clearInterval to stop the count here.
+    //clears both intervalIds
+    stop: function() {
         clearInterval(intervalId);
         clearInterval(gifIntervalId);
     },
+    //countdown and update dom, if time ends it's a wrong answer
     count: function() {
-
-        // DONE: increment time by 1, remember we cant use "this" here.
         timer.time--;
         $("#timer").html('Time Left: ' + timer.time + '</div>');
         if (timer.time === 0) {
-        	timer.stop();
+            timer.stop();
             incorrectAnswer();
         }
-
     },
+    //same thing for the gifTimer, except this doesn't count
+    //as a wrong answer when the time expires
     countGif: function() {
-
-            // DONE: increment time by 1, remember we cant use "this" here.
             timer.gifTime--;
             $("#timer").html(timer.gifTime);
             if (timer.gifTime === 0) {
-            	timer.stop();
+                timer.stop();
                 loadQuestion(gameStats.currentQuestion);
             }
 
         }
-        // DONE: Get the current time, pass that into the stopwatch.timeConverter function,
-        //       and save the result in a variable.
-
-
-    // DONE: Use the variable we just created to show the converted time in the "display" div.
-
 };
 
 //functions for correct and incorrect answers
-
 function correctAnswer() {
     timer.reset();
     timer.stop();
     clearDivs();
     $("#gif").html("<h1>CORRECT!</h1>");
-    $("#gif").append("<img src='" + randomGIf("win") + "'></img>")
+    $("#gif").append("<img src='" + randomGif("win") + "'></img>")
     $("#timer").html(timer.gifTime);
     //increment count and go to next question
     gameStats.correctAnswers++;
@@ -165,7 +156,6 @@ function incorrectAnswer() {
     $("#gif").html("<h1>INCORRECT!</h1>");
     $("#gif").append("<img src='" + randomGIf("lose") + "'></img>")
     $("#timer").html(timer.gifTime);
-    //alert("Wrong answer!");
     //increment count and go to next question
     gameStats.incorrectAnswers++;
     gameStats.currentQuestion++;
@@ -174,7 +164,7 @@ function incorrectAnswer() {
 
 }
 
-//function when game is over
+//function to clear the divs
 function clearDivs() {
     $(".question").empty();
     $(".answer0").empty();
@@ -183,6 +173,8 @@ function clearDivs() {
     $(".answer3").empty();
 }
 
+//function when the game ends
+//show the results
 function gameOver() {
     gameStats.gameIsOver = true;
     clearDivs();
@@ -194,6 +186,7 @@ function gameOver() {
     $("#incorrectAnswers").html("INCORRECT ANSWERS " + gameStats.incorrectAnswers);
 }
 
+//reset stats
 function resetAll() {
     gameStats.gameIsOver = false;
     $("#correctAnswers").empty();
@@ -207,7 +200,8 @@ function resetAll() {
     timer.reset();
 }
 
-function randomGIf(winLose) {
+//function to return a random win/lose gif
+function randomGif(winLose) {
     if (winLose === "win") {
         var randomFile = "./assets/images/" + gameStats.winningGifs[Math.floor(Math.random() * gameStats.winningGifs.length)];
     } else if (winLose === "lose") {
