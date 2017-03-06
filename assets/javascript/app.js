@@ -154,7 +154,7 @@ function incorrectAnswer() {
     timer.stop();
     clearDivs();
     $("#gif").html("<h1>INCORRECT!</h1>");
-    $("#gif").append("<img src='" + randomGIf("lose") + "'></img>")
+    $("#gif").append("<img src='" + randomGif("lose") + "'></img>")
     $("#timer").html(timer.gifTime);
     //increment count and go to next question
     gameStats.incorrectAnswers++;
